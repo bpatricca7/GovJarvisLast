@@ -1,5 +1,6 @@
 import mammoth from 'mammoth';
 import PDF from 'pdf-parse';
+import type { Options } from 'pdf-parse';
 
 export async function extractTextFromFile(file: Express.Multer.File): Promise<string> {
   try {
@@ -16,8 +17,14 @@ export async function extractTextFromFile(file: Express.Multer.File): Promise<st
 
     if (file.mimetype === 'application/pdf') {
       try {
+        // Configure PDF parser options to avoid test files
+        const options: Options = {
+          max: 0, // unlimited pages
+          pagerender: undefined // disable page rendering
+        };
+
         // Use the PDF parser directly with the buffer
-        const pdfData = await PDF(file.buffer);
+        const pdfData = await PDF(file.buffer, options);
 
         if (!pdfData || !pdfData.text) {
           throw new Error('Failed to extract text from PDF');
