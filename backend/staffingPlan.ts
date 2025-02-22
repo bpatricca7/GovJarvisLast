@@ -2,8 +2,8 @@ import OpenAI from "openai";
 import type { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 
 // Update the model constants at the top of the file
-const REASONING_MODEL = "gpt-4";
-const PARSER_MODEL = "gpt-4";
+const REASONING_MODEL = "03-mini";
+const PARSER_MODEL = "03-mini";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("OPENAI_API_KEY environment variable is required");
