@@ -61,22 +61,22 @@ ${trimmedPlanData ? `2. Current Staffing Plan: ${JSON.stringify(trimmedPlanData,
 
   const messages: ChatCompletionMessageParam[] = [
     {
-      role: "system",
+      role: "system" as const,
       content: systemMessage
     },
-    ...history.slice(-5).map(msg => ({
-      role: msg.role,
+    ...history.map(msg => ({
+      role: msg.role as "assistant" | "user",
       content: msg.content || ""
     })),
     {
-      role: "user",
+      role: "user" as const,
       content: message || ""
     }
   ].filter(msg => msg.content != null && msg.content.trim() !== "");
 
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-3.5-turbo",
       messages,
       temperature: 0.2,
       max_tokens: 4000,
